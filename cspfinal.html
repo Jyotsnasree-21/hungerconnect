@@ -1,0 +1,3849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthy Habits, Healthy Lives | Wellness Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* ===== Global Styles & Variables ===== */
+        :root {
+            --primary-color: #2E7D32;
+            --primary-dark: #1B5E20;
+            --primary-light: #C8E6C9;
+            --secondary-color: #1976D2;
+            --accent-color: #FFA000;
+            --text-color: #263238;
+            --text-light: #546E7A;
+            --bg-color: #f5f7fa;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+            --success-color: #388E3C;
+            --warning-color: #FFA000;
+            --danger-color: #D32F2F;
+            --info-color: #0288D1;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ===== Utility Classes ===== */
+        .flex-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flex-between {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .grid {
+            display: grid;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-light);
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .progress-bar {
+            height: 6px;
+            background-color: #eee;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+            transition: width 0.6s ease;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .badge-primary {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+        }
+
+        .badge-success {
+            background-color: #E8F5E9;
+            color: var(--success-color);
+        }
+
+        .badge-warning {
+            background-color: #FFF8E1;
+            color: var(--warning-color);
+        }
+
+        .badge-danger {
+            background-color: #FFEBEE;
+            color: var(--danger-color);
+        }
+
+        /* ===== Auth Pages ===== */
+        .auth-container {
+            display: flex;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary-light), var(--bg-color));
+        }
+
+        .auth-illustration {
+            flex: 1;
+            background: url('https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1932&q=80') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 50px;
+            color: white;
+            position: relative;
+        }
+
+        .auth-illustration::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .auth-illustration-content {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+        }
+
+        .auth-illustration h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .auth-illustration p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .auth-features {
+            margin-top: 40px;
+        }
+
+        .auth-feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .auth-feature i {
+            font-size: 24px;
+            margin-right: 15px;
+            color: var(--primary-light);
+        }
+
+        .auth-form-container {
+            width: 500px;
+            padding: 60px 40px;
+            background-color: var(--card-bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .auth-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-logo i {
+            font-size: 32px;
+            color: var(--primary-color);
+            margin-right: 12px;
+        }
+
+        .auth-logo h1 {
+            font-size: 24px;
+            font-weight: 600;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-header h2 {
+            font-size: 28px;
+            color: var(--text-color);
+            margin-bottom: 10px;
+        }
+
+        .auth-header p {
+            color: var(--text-light);
+            font-size: 15px;
+        }
+
+        .auth-form {
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+
+        .remember-me input {
+            margin-right: 8px;
+        }
+
+        .forgot-password {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 20px;
+        }
+
+        .auth-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .social-auth {
+            margin-bottom: 25px;
+        }
+
+        .social-auth p {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 15px;
+            position: relative;
+            font-size: 14px;
+        }
+
+        .social-auth p::before,
+        .social-auth p::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 30%;
+            height: 1px;
+            background-color: var(--border-color);
+        }
+
+        .social-auth p::before {
+            left: 0;
+        }
+
+        .social-auth p::after {
+            right: 0;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .social-btn:hover {
+            background-color: #f5f5f5;
+        }
+
+        .social-btn i {
+            font-size: 18px;
+            margin-right: 8px;
+        }
+
+        .google-btn {
+            color: #DB4437;
+        }
+
+        .facebook-btn {
+            color: #4267B2;
+        }
+
+        .auth-footer {
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .auth-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 5px;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== Layout Components ===== */
+        /* Header/Navigation */
+        .header {
+            width: 280px;
+            background-color: var(--card-bg);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            padding: 25px 0;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            padding: 0 25px 25px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .logo i {
+            font-size: 28px;
+            color: var(--primary-color);
+            margin-right: 12px;
+        }
+
+        .logo h1 {
+            font-size: 20px;
+            font-weight: 600;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 0 15px;
+        }
+
+        .nav ul {
+            list-style: none;
+        }
+
+        .nav li {
+            margin-bottom: 8px;
+        }
+
+        .nav a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: var(--text-light);
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .nav a:hover, .nav a.active {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+        }
+
+        .nav a i {
+            margin-right: 12px;
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .user-profile {
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .user-profile img {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            margin-right: 12px;
+            object-fit: cover;
+            border: 2px solid var(--primary-light);
+        }
+
+        .user-info {
+            flex-grow: 1;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+
+        .user-email {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .logout-btn:hover {
+            color: var(--danger-color);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex-grow: 1;
+            margin-left: 280px;
+            padding: 30px;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-header h2 {
+            font-size: 24px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .section-header h2 i {
+            margin-right: 12px;
+        }
+
+        /* ===== Dashboard Section ===== */
+        .welcome-banner {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-md);
+        }
+
+        .welcome-content h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .welcome-content p {
+            font-size: 15px;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+
+        .welcome-image {
+            width: 150px;
+            height: 150px;
+            background: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') center/cover no-repeat;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            transition: var(--transition);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: white;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .stat-info {
+            flex-grow: 1;
+        }
+
+        .stat-info h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .stat-info p {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .chart-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .chart-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .chart-card h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: var(--text-color);
+        }
+
+        .quick-actions {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 30px;
+        }
+
+        .quick-actions h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: var(--text-color);
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .action-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .action-btn i {
+            margin-right: 8px;
+        }
+
+        /* ===== Habit Tracker Section ===== */
+        .habit-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+        }
+
+        .habit-form {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .habit-form h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: var(--text-color);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus, 
+        .form-group textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .submit-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .habit-list {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .habit-list h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: var(--text-color);
+        }
+
+        .habit-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .habit-item:last-child {
+            border-bottom: none;
+        }
+
+        .habit-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .habit-info h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .habit-info p {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+
+        .streak {
+            font-size: 12px;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+
+        .streak i {
+            margin-right: 5px;
+        }
+
+        .habit-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .habit-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+
+        .habit-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .complete-btn {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+        }
+
+        .complete-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .edit-btn {
+            background-color: #E3F2FD;
+            color: var(--secondary-color);
+        }
+
+        .edit-btn:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .delete-btn {
+            background-color: #FFEBEE;
+            color: var(--danger-color);
+        }
+
+        .delete-btn:hover {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        /* ===== Wellness Plans Section ===== */
+        .plan-container {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .plan-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            background-color: #f5f5f5;
+        }
+
+        .plan-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .plan-tab.active {
+            color: var(--primary-color);
+        }
+
+        .plan-tab.active:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        .plan-tab:hover:not(.active) {
+            background-color: #e0e0e0;
+        }
+
+        .plan-details {
+            padding: 25px;
+            display: none;
+        }
+
+        .plan-details.active {
+            display: block;
+        }
+
+        .plan-levels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .level-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+
+        .level-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .level-card.recommended {
+            border: 2px solid var(--primary-color);
+        }
+
+        .recommended-badge {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .level-card h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+
+        .level-card ul {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .level-card ul li {
+            font-size: 14px;
+            margin-bottom: 8px;
+            padding-left: 22px;
+            position: relative;
+        }
+
+        .level-card ul li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-size: 14px;
+        }
+
+        .select-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .select-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* ===== Challenges Section ===== */
+        .challenge-container {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .challenge-container h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: var(--text-color);
+        }
+
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .challenge-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .challenge-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .challenge-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .challenge-badge {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: white;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .challenge-card h4 {
+            font-size: 16px;
+            color: var(--text-color);
+        }
+
+        .challenge-card p {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .progress-container {
+            margin-bottom: 15px;
+        }
+
+        .progress-container span {
+            display: block;
+            text-align: right;
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+
+        .challenge-reward {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        .challenge-reward i {
+            margin-right: 5px;
+        }
+
+        .join-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .join-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* ===== Resources Section ===== */
+        .resource-container {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .resource-filters {
+            margin-bottom: 20px;
+        }
+
+        .search-bar {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .search-bar input {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .search-bar input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+        }
+
+        .search-bar button {
+            padding: 0 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .search-bar button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 8px 15px;
+            background-color: #f5f5f5;
+            border: none;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .filter-btn:hover:not(.active) {
+            background-color: #e0e0e0;
+        }
+
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .resource-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .resource-image {
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+        }
+
+        .resource-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .resource-content h4 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .resource-content p {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .resource-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .resource-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .resource-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* ===== Profile Section ===== */
+        .profile-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+        }
+
+        .profile-sidebar {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary-light);
+            margin-bottom: 15px;
+        }
+
+        .profile-name {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .profile-email {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .profile-menu {
+            list-style: none;
+        }
+
+        .profile-menu li {
+            margin-bottom: 8px;
+        }
+
+        .profile-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: var(--text-light);
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .profile-menu a:hover, .profile-menu a.active {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+        }
+
+        .profile-menu a i {
+            margin-right: 12px;
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .profile-content {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .profile-section {
+            display: none;
+        }
+
+        .profile-section.active {
+            display: block;
+        }
+
+        .profile-section h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-section h3 i {
+            margin-right: 10px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+        }
+
+        .save-btn {
+            padding: 12px 25px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .save-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .goals-list {
+            margin-top: 20px;
+        }
+
+        .goal-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .goal-item:last-child {
+            border-bottom: none;
+        }
+
+        .goal-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .goal-info h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .goal-info p {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+
+        .goal-progress {
+            font-size: 12px;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+
+        .goal-progress i {
+            margin-right: 5px;
+        }
+
+        .goal-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .goal-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+
+        .goal-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .complete-goal-btn {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+        }
+
+        .complete-goal-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .edit-goal-btn {
+            background-color: #E3F2FD;
+            color: var(--secondary-color);
+        }
+
+        .edit-goal-btn:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .delete-goal-btn {
+            background-color: #FFEBEE;
+            color: var(--danger-color);
+        }
+
+        .delete-goal-btn:hover {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        /* ===== Notifications ===== */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .notification-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .notification-error {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .notification-warning {
+            background-color: var(--warning-color);
+            color: white;
+        }
+
+        /* ===== Modal ===== */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            padding: 25px;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-20px);
+            transition: var(--transition);
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            font-size: 20px;
+            color: var(--text-color);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--danger-color);
+        }
+
+        .modal-body {
+            margin-bottom: 25px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        /* ===== Responsive Styles ===== */
+        @media (max-width: 1200px) {
+            .header {
+                width: 240px;
+            }
+            .main-content {
+                margin-left: 240px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .auth-illustration {
+                display: none;
+            }
+            
+            .auth-form-container {
+                width: 100%;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+            
+            .container {
+                flex-direction: column;
+            }
+            
+            .header {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 15px;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+            
+            .logo {
+                padding: 0;
+                border-bottom: none;
+                margin-bottom: 0;
+            }
+            
+            .nav {
+                display: none;
+            }
+
+            .user-profile {
+                margin-top: 0;
+                border-top: none;
+                padding: 0;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+            
+            .habit-container, .profile-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .chart-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .welcome-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .welcome-image {
+                margin-top: 20px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-container {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .actions {
+                justify-content: center;
+            }
+            
+            .plan-levels {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                width: 100%;
+            }
+
+            .plan-tabs {
+                flex-wrap: wrap;
+            }
+
+            .plan-tab {
+                flex: 1 0 50%;
+            }
+            
+            .social-buttons {
+                flex-direction: column;
+            }
+        }
+
+        /* ===== Animations ===== */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Auth Pages -->
+    <div id="auth-container" class="auth-container">
+        <!-- Login Page -->
+        <div id="login-page" class="auth-form-container">
+            <div class="auth-logo">
+                <i class="fas fa-heartbeat"></i>
+                <h1>Healthy Habits</h1>
+            </div>
+            
+            <div class="auth-header">
+                <h2>Welcome Back!</h2>
+                <p>Sign in to continue your wellness journey</p>
+            </div>
+            
+            <form id="login-form" class="auth-form">
+                <div class="form-group">
+                    <label for="login-email">Email Address</label>
+                    <input type="email" id="login-email" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" placeholder="Enter your password" required>
+                </div>
+                
+                <div class="form-options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember-me">
+                        <label for="remember-me">Remember me</label>
+                    </div>
+                    <a href="#" id="forgot-password" class="forgot-password">Forgot password?</a>
+                </div>
+                
+                <button type="submit" class="auth-btn">Sign In</button>
+                
+                <div class="social-auth">
+                    <p>Or sign in with</p>
+                    <div class="social-buttons">
+                        <button type="button" class="social-btn google-btn">
+                            <i class="fab fa-google"></i> Google
+                        </button>
+                        <button type="button" class="social-btn facebook-btn">
+                            <i class="fab fa-facebook-f"></i> Facebook
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="auth-footer">
+                    Don't have an account? <a href="#" id="show-register">Sign up</a>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Registration Page -->
+        <div id="register-page" class="auth-form-container" style="display: none;">
+            <div class="auth-logo">
+                <i class="fas fa-heartbeat"></i>
+                <h1>Healthy Habits</h1>
+            </div>
+            
+            <div class="auth-header">
+                <h2>Create Your Account</h2>
+                <p>Start your journey to a healthier life</p>
+            </div>
+            
+            <form id="register-form" class="auth-form">
+                <div class="form-group">
+                    <label for="register-name">Full Name</label>
+                    <input type="text" id="register-name" placeholder="Enter your full name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-email">Email Address</label>
+                    <input type="email" id="register-email" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" placeholder="Create a password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-confirm-password">Confirm Password</label>
+                    <input type="password" id="register-confirm-password" placeholder="Confirm your password" required>
+                </div>
+                
+                <button type="submit" class="auth-btn">Sign Up</button>
+                
+                <div class="social-auth">
+                    <p>Or sign up with</p>
+                    <div class="social-buttons">
+                        <button type="button" class="social-btn google-btn">
+                            <i class="fab fa-google"></i> Google
+                        </button>
+                        <button type="button" class="social-btn facebook-btn">
+                            <i class="fab fa-facebook-f"></i> Facebook
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="auth-footer">
+                    Already have an account? <a href="#" id="show-login">Sign in</a>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Forgot Password Page -->
+        <div id="forgot-page" class="auth-form-container" style="display: none;">
+            <div class="auth-logo">
+                <i class="fas fa-heartbeat"></i>
+                <h1>Healthy Habits</h1>
+            </div>
+            
+            <div class="auth-header">
+                <h2>Reset Your Password</h2>
+                <p>Enter your email to receive a reset link</p>
+            </div>
+            
+            <form id="forgot-form" class="auth-form">
+                <div class="form-group">
+                    <label for="forgot-email">Email Address</label>
+                    <input type="email" id="forgot-email" placeholder="Enter your email" required>
+                </div>
+                
+                <button type="submit" class="auth-btn">Send Reset Link</button>
+                
+                <div class="auth-footer">
+                    Remember your password? <a href="#" id="show-login-from-forgot">Sign in</a>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Illustration Section (Visible on larger screens) -->
+        <div class="auth-illustration">
+            <div class="auth-illustration-content">
+                <h1>Transform Your Health Journey</h1>
+                <p>Track your habits, achieve your wellness goals, and build a healthier lifestyle with our comprehensive health tracker.</p>
+                
+                <div class="auth-features">
+                    <div class="auth-feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Personalized wellness plans</span>
+                    </div>
+                    <div class="auth-feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Habit tracking & progress monitoring</span>
+                    </div>
+                    <div class="auth-feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Engaging health challenges</span>
+                    </div>
+                    <div class="auth-feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Educational resources</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="app-container" class="container" style="display: none;">
+        <!-- Header/Navigation -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+                <h1>Healthy Habits</h1>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="#" class="active" data-section="dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="#" data-section="habits"><i class="fas fa-tasks"></i> Habits</a></li>
+                    <li><a href="#" data-section="plans"><i class="fas fa-calendar-alt"></i> Plans</a></li>
+                    <li><a href="#" data-section="challenges"><i class="fas fa-trophy"></i> Challenges</a></li>
+                    <li><a href="#" data-section="resources"><i class="fas fa-book"></i> Resources</a></li>
+                    <li><a href="#" data-section="profile"><i class="fas fa-user"></i> Profile</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=John+Doe&background=2E7D32&color=fff" alt="User Profile" id="user-avatar">
+                <div class="user-info">
+                    <div class="user-name" id="user-name">John Doe</div>
+                    <div class="user-email" id="user-email">john@example.com</div>
+                </div>
+                <button class="logout-btn" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section active">
+                <div class="section-header">
+                    <h2><i class="fas fa-home"></i> Dashboard</h2>
+                    <div class="badge badge-primary pulse">Daily Goal: 75%</div>
+                </div>
+                
+                <div class="welcome-banner">
+                    <div class="welcome-content">
+                        <h2>Good Morning, <span id="greeting-name">John</span>!</h2>
+                        <p>You're making great progress on your wellness journey. Keep up the good work! Today's focus: Drink at least 8 glasses of water and take a 30-minute walk.</p>
+                    </div>
+                    <div class="welcome-image"></div>
+                </div>
+                
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: #4CAF50;">
+                            <i class="fas fa-walking"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Activity</h3>
+                            <p>2/5 days this week</p>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 40%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: #2196F3;">
+                            <i class="fas fa-bed"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Sleep</h3>
+                            <p>Avg: 5.2 hours</p>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 65%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: #FF9800;">
+                            <i class="fas fa-apple-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Nutrition</h3>
+                            <p>3/5 meals balanced</p>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 60%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: #9C27B0;">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Streak</h3>
+                            <p>7 days</p>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-card">
+                        <h3>Weekly Activity</h3>
+                        <canvas id="activityChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Sleep Patterns</h3>
+                        <canvas id="sleepChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <h3>Quick Actions</h3>
+                    <div class="actions">
+                        <button class="action-btn" id="log-activity">
+                            <i class="fas fa-plus"></i> Log Activity
+                        </button>
+                        <button class="action-btn" id="add-meal">
+                            <i class="fas fa-utensils"></i> Add Meal
+                        </button>
+                        <button class="action-btn" id="log-sleep">
+                            <i class="fas fa-moon"></i> Log Sleep
+                        </button>
+                        <button class="action-btn" id="water-intake">
+                            <i class="fas fa-tint"></i> Water Intake
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Habits Section -->
+            <section id="habits" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-tasks"></i> Habit Tracker</h2>
+                    <button class="btn btn-outline" id="view-history">
+                        <i class="fas fa-history"></i> View History
+                    </button>
+                </div>
+                
+                <div class="habit-container">
+                    <div class="habit-form">
+                        <h3>Add New Habit</h3>
+                        <form id="habitForm">
+                            <div class="form-group">
+                                <label for="habitName">Habit Name</label>
+                                <input type="text" id="habitName" placeholder="e.g., Morning Walk" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="habitFrequency">Frequency</label>
+                                <select id="habitFrequency" required>
+                                    <option value="">Select frequency</option>
+                                    <option value="daily">Daily</option>
+                                    <option value="weekly">Weekly</option>
+                                    <option value="monthly">Monthly</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="habitGoal">Goal</label>
+                                <input type="text" id="habitGoal" placeholder="e.g., 30 minutes" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="habitNotes">Notes (Optional)</label>
+                                <textarea id="habitNotes" rows="2" placeholder="Any additional details..."></textarea>
+                            </div>
+                            <button type="submit" class="submit-btn">
+                                <i class="fas fa-plus"></i> Add Habit
+                            </button>
+                        </form>
+                    </div>
+                    <div class="habit-list">
+                        <h3>Your Habits</h3>
+                        <div class="habits" id="habits-list">
+                            <!-- Habits will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Wellness Plans Section -->
+            <section id="plans" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-calendar-alt"></i> Wellness Plans</h2>
+                    <button class="btn btn-outline" id="progress-report">
+                        <i class="fas fa-chart-line"></i> Progress Report
+                    </button>
+                </div>
+                
+                <div class="plan-container">
+                    <div class="plan-tabs">
+                        <button class="plan-tab active" data-plan="nutrition">Nutrition</button>
+                        <button class="plan-tab" data-plan="fitness">Fitness</button>
+                        <button class="plan-tab" data-plan="sleep">Sleep</button>
+                        <button class="plan-tab" data-plan="mental">Mental Health</button>
+                    </div>
+                    <div class="plan-content">
+                        <div id="nutrition" class="plan-details active">
+                            <h3>Nutrition Plan</h3>
+                            <p>Customize your eating habits with our science-backed nutrition plans tailored to your lifestyle and goals.</p>
+                            <div class="plan-levels">
+                                <div class="level-card">
+                                    <h4>Beginner</h4>
+                                    <ul>
+                                        <li>5 servings of fruits/vegetables daily</li>
+                                        <li>Reduce processed foods by 50%</li>
+                                        <li>Drink 6-8 glasses of water</li>
+                                        <li>Basic meal planning</li>
+                                    </ul>
+                                    <button class="select-btn" data-plan="nutrition" data-level="beginner">Select Plan</button>
+                                </div>
+                                <div class="level-card recommended">
+                                    <div class="recommended-badge">Recommended</div>
+                                    <h4>Intermediate</h4>
+                                    <ul>
+                                        <li>7 servings of fruits/vegetables daily</li>
+                                        <li>Meal prep 3x/week</li>
+                                        <li>Limit sugar to 25g/day</li>
+                                        <li>Balanced macros (40-30-30)</li>
+                                        <li>Mindful eating practices</li>
+                                    </ul>
+                                    <button class="select-btn" data-plan="nutrition" data-level="intermediate">Select Plan</button>
+                                </div>
+                                <div class="level-card">
+                                    <h4>Advanced</h4>
+                                    <ul>
+                                        <li>Customized meal plans</li>
+                                        <li>Macro tracking</li>
+                                        <li>Intermittent fasting</li>
+                                        <li>Meal timing optimization</li>
+                                        <li>Nutritional supplementation</li>
+                                    </ul>
+                                    <button class="select-btn" data-plan="nutrition" data-level="advanced">Select Plan</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="fitness" class="plan-details">
+                            <h3>Fitness Plan</h3>
+                            <p>Build a sustainable exercise routine with our progressive fitness plans designed for all levels.</p>
+                            <div class="plan-levels">
+                                <div class="level-card">
+                                    <h4>Beginner</h4>
+                                    <ul>
+                                        <li>30 min walk, 3x/week</li>
+                                        <li>Basic stretching daily</li>
+                                        <li>10,000 steps 3x/week</li>
+                                        <li>Introduction to strength training</li>
+                                    </ul>
+                                    <button class="select-btn" data-plan="fitness" data-level="beginner">Select Plan</button>
+                                </div>
+                                <div class="level-card recommended">
+                                    <div class="recommended-badge">Recommended</div>
+                                    <h4>Intermediate</h4>
+                                    <ul>
+                                        <li>30 min exercise, 5x/week</li>
+                                        <li>Strength training 2x/week</li>
+                                        <li>10,000 steps daily</li>
+                                        <li>Active recovery days</li>
+                                        <li>Cardio variety</li>
+                                    </ul>
+                                    <button class="select-btn" data-plan="fitness" data-level="intermediate">Select Plan</button>
+                                </div>
+                                <div class="level-card">
+                                    <h4>Advanced</h4>
+                                    <ul>
+                                        <li>Customized workout split</li>
+                                        <li>Progressive overload</li>
+                                        <li>HIIT training</li>
+                                        <li>Performance metrics</li>
+                                        <li>Recovery optimization</li>
+                                    </ul>
+                                    <button class="select-btn" data-plan="fitness" data-level="advanced">Select Plan</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="sleep" class="plan-details">
+                            <h3>Sleep Plan</h3>
+                            <p>Improve your sleep quality and duration with our evidence-based sleep optimization plans.</p>
+                            <div class="plan-levels">
+                                <div class="level-card">
+                                    <h4>Beginner</h4>
+                                    <ul>
+                                        <li>Consistent bedtime ±1 hour</li>
+                                        <li>6+ hours of sleep</li>
+                                        <li>No screens 30 min before bed</li>
+                                        <li>Basic sleep hygiene</li>
+                                    </ul>
+                                    <button class="select-btn" data-plan="sleep" data-level="beginner">Select Plan</button>
+                                </div>
+                                <div class="level-card recommended">
+                                    <div class="recommended-badge">Recommended</div>
+                                    <h4>Intermediate</h4>
+                                    <ul>
+                                        <li>7-8 hours of sleep</li>
+                                        <li>Bedtime routine</li>
+                                        <li>Sleep environment optimization</li>
+                                        <li>Wind-down ritual</li>
+                                        <li>Caffeine management</li>
+                                    </ul>
+                                    <button class="select-btn" data-plan="sleep" data-level="intermediate">Select Plan</button>
+                                </div>
+                                <div class="level-card">
+                                    <h4>Advanced</h4>
+                                    <ul>
+                                        <li>Sleep cycle tracking</li>
+                                        <li>Optimal REM/deep sleep</li>
+                                        <li>Nutrition for sleep</li>
+                                        <li>Advanced recovery</li>
+                                        <li>Circadian rhythm alignment</li>
+                                    </ul>
+                                    <button class="select-btn" data-plan="sleep" data-level="advanced">Select Plan</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="mental" class="plan-details">
+                            <h3>Mental Health Plan</h3>
+                            <p>Enhance your mental wellbeing with our comprehensive mental health and mindfulness plans.</p>
+                            <div class="plan-levels">
+                                <div class="level-card">
+                                    <h4>Beginner</h4>
+                                    <ul>
+                                        <li>5 min meditation daily</li>
+                                        <li>Gratitude journaling</li>
+                                        <li>Digital detox 1x/week</li>
+                                        <li>Basic stress management</li>
+                                    </ul>
+                                    <button class="select-btn" data-plan="mental" data-level="beginner">Select Plan</button>
+                                </div>
+                                <div class="level-card recommended">
+                                    <div class="recommended-badge">Recommended</div>
+                                    <h4>Intermediate</h4>
+                                    <ul>
+                                        <li>10 min meditation daily</li>
+                                        <li>Mindfulness practices</li>
+                                        <li>Stress management techniques</li>
+                                        <li>Weekly reflection</li>
+                                        <li>Emotional awareness</li>
+                                    </ul>
+                                    <button class="select-btn" data-plan="mental" data-level="intermediate">Select Plan</button>
+                                </div>
+                                <div class="level-card">
+                                    <h4>Advanced</h4>
+                                    <ul>
+                                        <li>Customized mindfulness</li>
+                                        <li>Emotional regulation</li>
+                                        <li>Cognitive behavioral techniques</li>
+                                        <li>Resilience building</li>
+                                        <li>Advanced journaling</li>
+                                    </ul>
+                                    <button class="select-btn" data-plan="mental" data-level="advanced">Select Plan</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Challenges Section -->
+            <section id="challenges" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-trophy"></i> Challenges</h2>
+                    <div class="flex-center gap-2">
+                        <span class="badge badge-primary" id="user-points">
+                            <i class="fas fa-coins"></i> 245 points
+                        </span>
+                        <button class="btn btn-outline" id="view-rewards">
+                            <i class="fas fa-award"></i> Rewards
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="challenge-container">
+                    <div class="active-challenges">
+                        <h3>Active Challenges</h3>
+                        <div class="challenges-grid" id="active-challenges-list">
+                            <!-- Active challenges will be dynamically added here -->
+                        </div>
+                    </div>
+                    <div class="available-challenges">
+                        <h3>Available Challenges</h3>
+                        <div class="challenges-grid" id="available-challenges-list">
+                            <!-- Available challenges will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section id="resources" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-book"></i> Resources</h2>
+                    <button class="btn btn-outline" id="saved-resources">
+                        <i class="fas fa-bookmark"></i> Saved Items
+                    </button>
+                </div>
+                
+                <div class="resource-container">
+                    <div class="resource-filters">
+                        <div class="search-bar">
+                            <input type="text" id="resource-search" placeholder="Search resources...">
+                            <button><i class="fas fa-search"></i></button>
+                        </div>
+                        <div class="filter-options">
+                            <button class="filter-btn active" data-category="all">All</button>
+                            <button class="filter-btn" data-category="nutrition">Nutrition</button>
+                            <button class="filter-btn" data-category="fitness">Fitness</button>
+                            <button class="filter-btn" data-category="sleep">Sleep</button>
+                            <button class="filter-btn" data-category="mental">Mental Health</button>
+                            <button class="filter-btn" data-category="articles">Articles</button>
+                            <button class="filter-btn" data-category="videos">Videos</button>
+                        </div>
+                    </div>
+                    <div class="resource-grid" id="resources-list">
+                        <!-- Resources will be dynamically added here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Section -->
+            <section id="profile" class="content-section">
+                <div class="profile-container">
+                    <div class="profile-sidebar">
+                        <div class="profile-header">
+                            <img src="https://ui-avatars.com/api/?name=John+Doe&background=2E7D32&color=fff" alt="Profile" class="profile-avatar" id="profile-avatar">
+                            <div class="profile-name" id="profile-name">John Doe</div>
+                            <div class="profile-email" id="profile-email">john@example.com</div>
+                        </div>
+                        
+                        <div class="profile-stats">
+                            <div class="stat-item">
+                                <div class="stat-value" id="streak-count">7</div>
+                                <div class="stat-label">Day Streak</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="points-earned">245</div>
+                                <div class="stat-label">Points Earned</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="habits-tracked">3</div>
+                                <div class="stat-label">Habits Tracked</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="challenges-completed">2</div>
+                                <div class="stat-label">Challenges</div>
+                            </div>
+                        </div>
+                        
+                        <ul class="profile-menu">
+                            <li><a href="#" class="active" data-profile-section="personal"><i class="fas fa-user-circle"></i> Personal Info</a></li>
+                            <li><a href="#" data-profile-section="goals"><i class="fas fa-bullseye"></i> Goals</a></li>
+                            <li><a href="#" data-profile-section="settings"><i class="fas fa-cog"></i> Settings</a></li>
+                            <li><a href="#" data-profile-section="privacy"><i class="fas fa-lock"></i> Privacy</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="profile-content">
+                        <div id="personal" class="profile-section active">
+                            <h3><i class="fas fa-user-circle"></i> Personal Information</h3>
+                            <form id="personal-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="first-name">First Name</label>
+                                        <input type="text" id="first-name" value="John">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="last-name">Last Name</label>
+                                        <input type="text" id="last-name" value="Doe">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="profile-email-input">Email</label>
+                                    <input type="email" id="profile-email-input" value="john@example.com">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="birthdate">Date of Birth</label>
+                                    <input type="date" id="birthdate" value="1990-01-01">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="gender">Gender</label>
+                                    <select id="gender">
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                        <option value="prefer-not-to-say">Prefer not to say</option>
+                                    </select>
+                                </div>
+                                
+                                <button type="submit" class="save-btn">Save Changes</button>
+                            </form>
+                        </div>
+                        
+                        <div id="goals" class="profile-section">
+                            <h3><i class="fas fa-bullseye"></i> My Goals</h3>
+                            <button class="btn btn-primary" id="add-goal-btn" style="margin-bottom: 20px;">
+                                <i class="fas fa-plus"></i> Add New Goal
+                            </button>
+                            
+                            <div class="goals-list" id="goals-list">
+                                <!-- Goals will be dynamically added here -->
+                            </div>
+                        </div>
+                        
+                        <div id="settings" class="profile-section">
+                            <h3><i class="fas fa-cog"></i> Account Settings</h3>
+                            <form id="settings-form">
+                                <div class="form-group">
+                                    <label for="notifications">Email Notifications</label>
+                                    <select id="notifications">
+                                        <option value="all">All notifications</option>
+                                        <option value="important">Important only</option>
+                                        <option value="none">None</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="theme">Theme</label>
+                                    <select id="theme">
+                                        <option value="light">Light</option>
+                                        <option value="dark">Dark</option>
+                                        <option value="system">System Default</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="language">Language</label>
+                                    <select id="language">
+                                        <option value="en">English</option>
+                                        <option value="es">Spanish</option>
+                                        <option value="fr">French</option>
+                                        <option value="de">German</option>
+                                    </select>
+                                </div>
+                                
+                                <button type="submit" class="save-btn">Save Settings</button>
+                            </form>
+                        </div>
+                        
+                        <div id="privacy" class="profile-section">
+                            <h3><i class="fas fa-lock"></i> Privacy & Security</h3>
+                            <form id="privacy-form">
+                                <div class="form-group">
+                                    <label for="current-password">Current Password</label>
+                                    <input type="password" id="current-password" placeholder="Enter current password">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="new-password">New Password</label>
+                                    <input type="password" id="new-password" placeholder="Enter new password">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="confirm-password">Confirm New Password</label>
+                                    <input type="password" id="confirm-password" placeholder="Confirm new password">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>
+                                        <input type="checkbox" id="two-factor"> Enable Two-Factor Authentication
+                                    </label>
+                                </div>
+                                
+                                <button type="submit" class="save-btn">Update Security</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Notification Element -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notification-message">Habit added successfully!</span>
+    </div>
+
+    <!-- Add Goal Modal -->
+    <div class="modal" id="goal-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Goal</h3>
+                <button class="modal-close" id="close-goal-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="goal-form">
+                    <div class="form-group">
+                        <label for="goal-title">Goal Title</label>
+                        <input type="text" id="goal-title" placeholder="e.g., Lose 10 pounds" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="goal-category">Category</label>
+                        <select id="goal-category" required>
+                            <option value="">Select category</option>
+                            <option value="nutrition">Nutrition</option>
+                            <option value="fitness">Fitness</option>
+                            <option value="sleep">Sleep</option>
+                            <option value="mental">Mental Health</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="goal-due-date">Due Date</label>
+                        <input type="date" id="goal-due-date">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="goal-description">Description</label>
+                        <textarea id="goal-description" rows="3" placeholder="Describe your goal..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancel-goal">Cancel</button>
+                <button class="btn btn-primary" id="save-goal">Save Goal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Log Activity Modal -->
+    <div class="modal" id="activity-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Log Activity</h3>
+                <button class="modal-close" id="close-activity-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="activity-form">
+                    <div class="form-group">
+                        <label for="activity-type">Activity Type</label>
+                        <select id="activity-type" required>
+                            <option value="">Select activity</option>
+                            <option value="walking">Walking</option>
+                            <option value="running">Running</option>
+                            <option value="cycling">Cycling</option>
+                            <option value="swimming">Swimming</option>
+                            <option value="yoga">Yoga</option>
+                            <option value="strength">Strength Training</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="activity-duration">Duration (minutes)</label>
+                            <input type="number" id="activity-duration" placeholder="30" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="activity-intensity">Intensity</label>
+                            <select id="activity-intensity" required>
+                                <option value="low">Low</option>
+                                <option value="moderate">Moderate</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="activity-notes">Notes</label>
+                        <textarea id="activity-notes" rows="2" placeholder="Any additional details..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancel-activity">Cancel</button>
+                <button class="btn btn-primary" id="save-activity">Log Activity</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // ===== Global Variables =====
+            let currentUser = null;
+            let userPoints = 245;
+            let activeHabits = [
+                { id: 1, name: 'Morning Walk', frequency: 'daily', goal: '30 minutes', streak: 7, completedToday: false },
+                { id: 2, name: 'Drink Water', frequency: 'daily', goal: '8 glasses', streak: 5, completedToday: true },
+                { id: 3, name: 'Yoga', frequency: 'weekly', goal: '3 times', streak: 2, completedToday: false }
+            ];
+            
+            let activeChallenges = [
+                { id: 1, title: '10,000 Steps Daily', category: 'activity', progress: 4, total: 7, reward: 50 },
+                { id: 2, title: 'Hydration Hero', category: 'hydration', progress: 4, total: 5, reward: 30 },
+                { id: 3, title: 'Veggie Challenge', category: 'nutrition', progress: 1, total: 3, reward: 20 }
+            ];
+            
+            let availableChallenges = [
+                { id: 4, title: 'Sleep Well', category: 'sleep', total: 5, reward: 40 },
+                { id: 5, title: 'Cardio Week', category: 'activity', total: 4, reward: 35 },
+                { id: 6, title: 'Mindful Minutes', category: 'mental', total: 7, reward: 50 }
+            ];
+            
+            let resources = [
+                { id: 1, title: 'Balanced Diet Guide', category: 'nutrition', type: 'article', length: '5 min read', description: 'Learn how to create a balanced plate with all essential nutrients for optimal health and energy levels.' },
+                { id: 2, title: 'Home Workout Routine', category: 'fitness', type: 'video', length: '15 min', description: '15-minute no-equipment workout you can do anywhere to stay active and build strength.' },
+                { id: 3, title: 'Sleep Hygiene Tips', category: 'sleep', type: 'article', length: '7 min read', description: 'Improve your sleep quality with these evidence-based strategies for better rest and recovery.' },
+                { id: 4, title: 'Mindfulness Meditation', category: 'mental', type: 'video', length: '10 min', description: 'Guided meditation for beginners to reduce stress, improve focus and emotional wellbeing.' },
+                { id: 5, title: 'Meal Prep Guide', category: 'nutrition', type: 'article', length: '8 min read', description: 'Simple strategies for healthy meal preparation to save time, money and eat well all week.' },
+                { id: 6, title: 'Running for Beginners', category: 'fitness', type: 'article', length: '6 min read', description: 'How to start running safely and build endurance without injury or burnout.' }
+            ];
+            
+            let goals = [
+                { id: 1, title: 'Lose 10 pounds', category: 'nutrition', dueDate: '2023-12-31', description: 'Gradual weight loss through diet and exercise', completed: false },
+                { id: 2, title: 'Run 5K', category: 'fitness', dueDate: '2023-10-15', description: 'Train to run a 5K without stopping', completed: false },
+                { id: 3, title: 'Meditate daily', category: 'mental', dueDate: null, description: 'Build a daily meditation habit', completed: true }
+            ];
+
+            // ===== DOM Elements =====
+            const authContainer = document.getElementById('auth-container');
+            const appContainer = document.getElementById('app-container');
+            
+            // Auth elements
+            const loginPage = document.getElementById('login-page');
+            const registerPage = document.getElementById('register-page');
+            const forgotPage = document.getElementById('forgot-page');
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const forgotForm = document.getElementById('forgot-form');
+            const showRegister = document.getElementById('show-register');
+            const showLogin = document.getElementById('show-login');
+            const showLoginFromForgot = document.getElementById('show-login-from-forgot');
+            const forgotPassword = document.getElementById('forgot-password');
+            
+            // App elements
+            const logoutBtn = document.getElementById('logout-btn');
+            const navLinks = document.querySelectorAll('.nav a');
+            const sections = document.querySelectorAll('.content-section');
+            const notification = document.getElementById('notification');
+            const notificationMessage = document.getElementById('notification-message');
+            
+            // Dashboard elements
+            const greetingName = document.getElementById('greeting-name');
+            const userPointsElement = document.getElementById('user-points');
+            
+            // Habit elements
+            const habitForm = document.getElementById('habitForm');
+            const habitsList = document.getElementById('habits-list');
+            
+            // Challenge elements
+            const activeChallengesList = document.getElementById('active-challenges-list');
+            const availableChallengesList = document.getElementById('available-challenges-list');
+            
+            // Resource elements
+            const resourcesList = document.getElementById('resources-list');
+            
+            // Profile elements
+            const profileMenuLinks = document.querySelectorAll('.profile-menu a');
+            const profileSections = document.querySelectorAll('.profile-section');
+            const personalForm = document.getElementById('personal-form');
+            const settingsForm = document.getElementById('settings-form');
+            const privacyForm = document.getElementById('privacy-form');
+            const goalsList = document.getElementById('goals-list');
+            const addGoalBtn = document.getElementById('add-goal-btn');
+            
+            // Modal elements
+            const goalModal = document.getElementById('goal-modal');
+            const closeGoalModal = document.getElementById('close-goal-modal');
+            const cancelGoal = document.getElementById('cancel-goal');
+            const saveGoal = document.getElementById('save-goal');
+            const goalForm = document.getElementById('goal-form');
+            
+            const activityModal = document.getElementById('activity-modal');
+            const closeActivityModal = document.getElementById('close-activity-modal');
+            const cancelActivity = document.getElementById('cancel-activity');
+            const saveActivity = document.getElementById('save-activity');
+            const activityForm = document.getElementById('activity-form');
+            const logActivityBtn = document.getElementById('log-activity');
+            
+            // ===== Initialize App =====
+            function initializeApp() {
+                // Check if user is logged in (in a real app, this would check localStorage/session)
+                const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+                
+                if (isLoggedIn) {
+                    // Get user data from localStorage
+                    const userData = JSON.parse(localStorage.getItem('userData'));
+                    if (userData) {
+                        currentUser = userData;
+                        showApp();
+                    } else {
+                        showAuth();
+                    }
+                } else {
+                    showAuth();
+                }
+            }
+            
+            function showAuth() {
+                authContainer.style.display = 'flex';
+                appContainer.style.display = 'none';
+            }
+            
+            function showApp() {
+                authContainer.style.display = 'none';
+                appContainer.style.display = 'flex';
+                
+                // Set user data
+                document.getElementById('user-name').textContent = currentUser.name;
+                document.getElementById('user-email').textContent = currentUser.email;
+                document.getElementById('profile-name').textContent = currentUser.name;
+                document.getElementById('profile-email').textContent = currentUser.email;
+                greetingName.textContent = currentUser.name.split(' ')[0];
+                
+                // Initialize charts
+                initializeCharts();
+                
+                // Render initial data
+                renderHabits();
+                renderChallenges();
+                renderResources();
+                renderGoals();
+                
+                // Set up event listeners
+                setupEventListeners();
+            }
+            
+            // ===== Auth Functions =====
+            function setupAuthEventListeners() {
+                // Switch between login and register
+                showRegister.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    loginPage.style.display = 'none';
+                    registerPage.style.display = 'block';
+                    forgotPage.style.display = 'none';
+                });
+                
+                showLogin.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    loginPage.style.display = 'block';
+                    registerPage.style.display = 'none';
+                    forgotPage.style.display = 'none';
+                });
+                
+                // Forgot password
+                forgotPassword.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    loginPage.style.display = 'none';
+                    registerPage.style.display = 'none';
+                    forgotPage.style.display = 'block';
+                });
+                
+                showLoginFromForgot.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    loginPage.style.display = 'block';
+                    registerPage.style.display = 'none';
+                    forgotPage.style.display = 'none';
+                });
+                
+                // Form submissions
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const email = document.getElementById('login-email').value;
+                    const password = document.getElementById('login-password').value;
+                    
+                    // In a real app, this would validate with a server
+                    if (email && password) {
+                        // Simulate successful login
+                        currentUser = {
+                            name: 'John Doe',
+                            email: email,
+                            avatar: 'https://ui-avatars.com/api/?name=John+Doe&background=2E7D32&color=fff'
+                        };
+                        
+                        // Save to localStorage
+                        localStorage.setItem('isLoggedIn', 'true');
+                        localStorage.setItem('userData', JSON.stringify(currentUser));
+                        
+                        showApp();
+                        showNotification('Login successful! Welcome back.', 'success');
+                    } else {
+                        showNotification('Please enter both email and password', 'error');
+                    }
+                });
+                
+                registerForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const name = document.getElementById('register-name').value;
+                    const email = document.getElementById('register-email').value;
+                    const password = document.getElementById('register-password').value;
+                    const confirmPassword = document.getElementById('register-confirm-password').value;
+                    
+                    // Validate
+                    if (!name || !email || !password || !confirmPassword) {
+                        showNotification('Please fill in all fields', 'error');
+                        return;
+                    }
+                    
+                    if (password !== confirmPassword) {
+                        showNotification('Passwords do not match', 'error');
+                        return;
+                    }
+                    
+                    // Simulate successful registration
+                    currentUser = {
+                        name: name,
+                        email: email,
+                        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=2E7D32&color=fff`
+                    };
+                    
+                    // Save to localStorage
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('userData', JSON.stringify(currentUser));
+                    
+                    showApp();
+                    showNotification('Registration successful! Welcome to Healthy Habits.', 'success');
+                });
+                
+                forgotForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const email = document.getElementById('forgot-email').value;
+                    
+                    if (email) {
+                        // Simulate sending reset link
+                        showNotification(`Password reset link sent to ${email}`, 'success');
+                        loginPage.style.display = 'block';
+                        forgotPage.style.display = 'none';
+                    } else {
+                        showNotification('Please enter your email', 'error');
+                    }
+                });
+                
+                // Social login buttons
+                document.querySelectorAll('.social-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const provider = this.classList.contains('google-btn') ? 'Google' : 'Facebook';
+                        showNotification(`Signing in with ${provider}...`, 'warning');
+                    });
+                });
+            }
+            
+            // ===== App Functions =====
+            function setupEventListeners() {
+                // Logout
+                logoutBtn.addEventListener('click', function() {
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('userData');
+                    showAuth();
+                    showNotification('Logged out successfully', 'success');
+                });
+                
+                // Navigation between sections
+                navLinks.forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        // Remove active class from all links and sections
+                        navLinks.forEach(navLink => navLink.classList.remove('active'));
+                        sections.forEach(section => section.classList.remove('active'));
+                        
+                        // Add active class to clicked link
+                        this.classList.add('active');
+                        
+                        // Show corresponding section
+                        const sectionId = this.getAttribute('data-section');
+                        document.getElementById(sectionId).classList.add('active');
+                    });
+                });
+                
+                // Navigation between profile sections
+                profileMenuLinks.forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        // Remove active class from all links and sections
+                        profileMenuLinks.forEach(menuLink => menuLink.classList.remove('active'));
+                        profileSections.forEach(section => section.classList.remove('active'));
+                        
+                        // Add active class to clicked link
+                        this.classList.add('active');
+                        
+                        // Show corresponding section
+                        const sectionId = this.getAttribute('data-profile-section');
+                        document.getElementById(sectionId).classList.add('active');
+                    });
+                });
+                
+                // Wellness Plans tabs
+                const planTabs = document.querySelectorAll('.plan-tab');
+                const planDetails = document.querySelectorAll('.plan-details');
+                
+                planTabs.forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        // Remove active class from all tabs and details
+                        planTabs.forEach(t => t.classList.remove('active'));
+                        planDetails.forEach(detail => detail.classList.remove('active'));
+                        
+                        // Add active class to clicked tab
+                        this.classList.add('active');
+                        
+                        // Show corresponding plan details
+                        const planId = this.getAttribute('data-plan');
+                        document.getElementById(planId).classList.add('active');
+                    });
+                });
+                
+                // Select plan buttons
+                document.querySelectorAll('.select-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const plan = this.getAttribute('data-plan');
+                        const level = this.getAttribute('data-level');
+                        showNotification(`Selected ${level} ${plan} plan`, 'success');
+                    });
+                });
+                
+                // Resource filtering
+                const resourceFilterBtns = document.querySelectorAll('.filter-btn');
+                
+                resourceFilterBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        // Remove active class from all filter buttons
+                        resourceFilterBtns.forEach(b => b.classList.remove('active'));
+                        
+                        // Add active class to clicked button
+                        this.classList.add('active');
+                        
+                        const category = this.getAttribute('data-category');
+                        filterResources(category);
+                    });
+                });
+                
+                // Resource search
+                const resourceSearch = document.getElementById('resource-search');
+                resourceSearch.addEventListener('input', function() {
+                    const searchTerm = this.value.toLowerCase();
+                    filterResources(document.querySelector('.filter-btn.active').getAttribute('data-category'), searchTerm);
+                });
+                
+                // Habit form submission
+                if (habitForm) {
+                    habitForm.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        
+                        // Get form values
+                        const name = document.getElementById('habitName').value;
+                        const frequency = document.getElementById('habitFrequency').value;
+                        const goal = document.getElementById('habitGoal').value;
+                        const notes = document.getElementById('habitNotes').value;
+                        
+                        // Create new habit object
+                        const newHabit = {
+                            id: Date.now(),
+                            name,
+                            frequency,
+                            goal,
+                            notes,
+                            streak: 0,
+                            completedToday: false,
+                            createdAt: new Date()
+                        };
+                        
+                        // Add to active habits array
+                        activeHabits.push(newHabit);
+                        
+                        // Update stats
+                        document.getElementById('habits-tracked').textContent = activeHabits.length;
+                        
+                        // Render new habit
+                        renderHabit(newHabit);
+                        
+                        // Reset form
+                        habitForm.reset();
+                        
+                        // Show notification
+                        showNotification('Habit added successfully!', 'success');
+                    });
+                }
+                
+                // Join challenge buttons (delegated event)
+                document.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('join-btn') || e.target.closest('.join-btn')) {
+                        const btn = e.target.classList.contains('join-btn') ? e.target : e.target.closest('.join-btn');
+                        const challengeCard = btn.closest('.challenge-card');
+                        const challengeId = parseInt(challengeCard.dataset.id);
+                        const challenge = availableChallenges.find(c => c.id === challengeId);
+                        
+                        if (challenge) {
+                            // Move from available to active
+                            availableChallenges = availableChallenges.filter(c => c.id !== challengeId);
+                            activeChallenges.push({...challenge, progress: 0});
+                            
+                            // Re-render challenges
+                            renderChallenges();
+                            
+                            showNotification(`You've joined the "${challenge.title}" challenge!`, 'success');
+                        }
+                    }
+                });
+                
+                // Complete challenge (delegated event)
+                document.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('complete-challenge') || e.target.closest('.complete-challenge')) {
+                        const btn = e.target.classList.contains('complete-challenge') ? e.target : e.target.closest('.complete-challenge');
+                        const challengeCard = btn.closest('.challenge-card');
+                        const challengeId = parseInt(challengeCard.dataset.id);
+                        const challengeIndex = activeChallenges.findIndex(c => c.id === challengeId);
+                        
+                        if (challengeIndex !== -1) {
+                            const challenge = activeChallenges[challengeIndex];
+                            
+                            // Update progress
+                            if (challenge.progress < challenge.total) {
+                                activeChallenges[challengeIndex].progress += 1;
+                                
+                                // Check if completed
+                                if (activeChallenges[challengeIndex].progress === challenge.total) {
+                                    // Award points
+                                    userPoints += challenge.reward;
+                                    updatePoints();
+                                    
+                                    // Move to completed
+                                    setTimeout(() => {
+                                        activeChallenges.splice(challengeIndex, 1);
+                                        document.getElementById('challenges-completed').textContent = parseInt(document.getElementById('challenges-completed').textContent) + 1;
+                                        renderChallenges();
+                                        showNotification(`Challenge completed! You earned ${challenge.reward} points.`, 'success');
+                                    }, 1000);
+                                }
+                                
+                                // Re-render
+                                renderChallenges();
+                            }
+                        }
+                    }
+                });
+                
+                // Resource buttons (delegated event)
+                document.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('resource-btn') || e.target.closest('.resource-btn')) {
+                        const btn = e.target.classList.contains('resource-btn') ? e.target : e.target.closest('.resource-btn');
+                        const resourceCard = btn.closest('.resource-card');
+                        const resourceId = parseInt(resourceCard.dataset.id);
+                        const resource = resources.find(r => r.id === resourceId);
+                        
+                        if (resource) {
+                            showNotification(`Opening "${resource.title}" ${resource.type}...`, 'success');
+                        }
+                    }
+                });
+                
+                // Profile form submissions
+                personalForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Update user data
+                    currentUser.name = `${document.getElementById('first-name').value} ${document.getElementById('last-name').value}`;
+                    currentUser.email = document.getElementById('profile-email-input').value;
+                    
+                    // Update UI
+                    document.getElementById('user-name').textContent = currentUser.name;
+                    document.getElementById('profile-name').textContent = currentUser.name;
+                    document.getElementById('profile-email').textContent = currentUser.email;
+                    document.getElementById('user-email').textContent = currentUser.email;
+                    greetingName.textContent = currentUser.name.split(' ')[0];
+                    
+                    // Update avatar
+                    currentUser.avatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.name)}&background=2E7D32&color=fff`;
+                    document.getElementById('user-avatar').src = currentUser.avatar;
+                    document.getElementById('profile-avatar').src = currentUser.avatar;
+                    
+                    // Save to localStorage
+                    localStorage.setItem('userData', JSON.stringify(currentUser));
+                    
+                    showNotification('Profile updated successfully!', 'success');
+                });
+                
+                settingsForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    showNotification('Settings saved successfully!', 'success');
+                });
+                
+                privacyForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const currentPassword = document.getElementById('current-password').value;
+                    const newPassword = document.getElementById('new-password').value;
+                    const confirmPassword = document.getElementById('confirm-password').value;
+                    
+                    if (!currentPassword || !newPassword || !confirmPassword) {
+                        showNotification('Please fill in all password fields', 'error');
+                        return;
+                    }
+                    
+                    if (newPassword !== confirmPassword) {
+                        showNotification('New passwords do not match', 'error');
+                        return;
+                    }
+                    
+                    // In a real app, this would validate current password and update
+                    showNotification('Password updated successfully!', 'success');
+                    privacyForm.reset();
+                });
+                
+                // Goal modal
+                addGoalBtn.addEventListener('click', function() {
+                    goalModal.classList.add('show');
+                });
+                
+                closeGoalModal.addEventListener('click', function() {
+                    goalModal.classList.remove('show');
+                });
+                
+                cancelGoal.addEventListener('click', function() {
+                    goalModal.classList.remove('show');
+                });
+                
+                saveGoal.addEventListener('click', function() {
+                    const title = document.getElementById('goal-title').value;
+                    const category = document.getElementById('goal-category').value;
+                    const dueDate = document.getElementById('goal-due-date').value;
+                    const description = document.getElementById('goal-description').value;
+                    
+                    if (!title || !category) {
+                        showNotification('Please fill in required fields', 'error');
+                        return;
+                    }
+                    
+                    // Add new goal
+                    const newGoal = {
+                        id: Date.now(),
+                        title,
+                        category,
+                        dueDate,
+                        description,
+                        completed: false
+                    };
+                    
+                    goals.push(newGoal);
+                    renderGoal(newGoal);
+                    
+                    // Reset and close modal
+                    goalForm.reset();
+                    goalModal.classList.remove('show');
+                    
+                    showNotification('Goal added successfully!', 'success');
+                });
+                
+                // Activity modal
+                logActivityBtn.addEventListener('click', function() {
+                    activityModal.classList.add('show');
+                });
+                
+                closeActivityModal.addEventListener('click', function() {
+                    activityModal.classList.remove('show');
+                });
+                
+                cancelActivity.addEventListener('click', function() {
+                    activityModal.classList.remove('show');
+                });
+                
+                saveActivity.addEventListener('click', function() {
+                    const type = document.getElementById('activity-type').value;
+                    const duration = document.getElementById('activity-duration').value;
+                    const intensity = document.getElementById('activity-intensity').value;
+                    const notes = document.getElementById('activity-notes').value;
+                    
+                    if (!type || !duration) {
+                        showNotification('Please fill in required fields', 'error');
+                        return;
+                    }
+                    
+                    // In a real app, this would save the activity
+                    activityForm.reset();
+                    activityModal.classList.remove('show');
+                    
+                    showNotification('Activity logged successfully!', 'success');
+                });
+                
+                // Complete goal (delegated event)
+                goalsList.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('complete-goal-btn') || e.target.closest('.complete-goal-btn')) {
+                        const btn = e.target.classList.contains('complete-goal-btn') ? e.target : e.target.closest('.complete-goal-btn');
+                        const goalItem = btn.closest('.goal-item');
+                        const goalId = parseInt(goalItem.dataset.id);
+                        const goalIndex = goals.findIndex(g => g.id === goalId);
+                        
+                        if (goalIndex !== -1) {
+                            goals[goalIndex].completed = !goals[goalIndex].completed;
+                            renderGoals();
+                            
+                            const action = goals[goalIndex].completed ? 'completed' : 'marked as incomplete';
+                            showNotification(`Goal "${goals[goalIndex].title}" ${action}!`, 'success');
+                        }
+                    }
+                    
+                    // Delete goal
+                    if (e.target.classList.contains('delete-goal-btn') || e.target.closest('.delete-goal-btn')) {
+                        const btn = e.target.classList.contains('delete-goal-btn') ? e.target : e.target.closest('.delete-goal-btn');
+                        const goalItem = btn.closest('.goal-item');
+                        const goalId = parseInt(goalItem.dataset.id);
+                        const goalIndex = goals.findIndex(g => g.id === goalId);
+                        
+                        if (goalIndex !== -1 && confirm(`Are you sure you want to delete the "${goals[goalIndex].title}" goal?`)) {
+                            const deletedGoal = goals.splice(goalIndex, 1)[0];
+                            renderGoals();
+                            showNotification(`Goal "${deletedGoal.title}" deleted.`, 'success');
+                        }
+                    }
+                });
+                
+                // Complete habit (delegated event)
+                habitsList.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('complete-btn') || e.target.closest('.complete-btn')) {
+                        const btn = e.target.classList.contains('complete-btn') ? e.target : e.target.closest('.complete-btn');
+                        const habitItem = btn.closest('.habit-item');
+                        const habitId = parseInt(habitItem.dataset.id);
+                        const habitIndex = activeHabits.findIndex(h => h.id === habitId);
+                        
+                        if (habitIndex !== -1) {
+                            const habit = activeHabits[habitIndex];
+                            
+                            if (!habit.completedToday) {
+                                // Update streak
+                                activeHabits[habitIndex].streak += 1;
+                                activeHabits[habitIndex].completedToday = true;
+                                
+                                // Award points
+                                userPoints += 5;
+                                updatePoints();
+                                
+                                // Update streak counter if daily
+                                if (habit.frequency === 'daily') {
+                                    document.getElementById('streak-count').textContent = 
+                                        Math.max(parseInt(document.getElementById('streak-count').textContent), activeHabits[habitIndex].streak);
+                                }
+                                
+                                // Visual feedback
+                                habitItem.style.backgroundColor = '#E8F5E9';
+                                setTimeout(() => {
+                                    habitItem.style.backgroundColor = '';
+                                }, 1000);
+                                
+                                showNotification('Habit completed! +5 points', 'success');
+                            } else {
+                                showNotification('You already completed this habit today', 'warning');
+                            }
+                            
+                            // Update UI
+                            renderHabits();
+                        }
+                    }
+                    
+                    // Delete habit
+                    if (e.target.classList.contains('delete-btn') || e.target.closest('.delete-btn')) {
+                        const btn = e.target.classList.contains('delete-btn') ? e.target : e.target.closest('.delete-btn');
+                        const habitItem = btn.closest('.habit-item');
+                        const habitId = parseInt(habitItem.dataset.id);
+                        const habitIndex = activeHabits.findIndex(h => h.id === habitId);
+                        
+                        if (habitIndex !== -1 && confirm(`Are you sure you want to delete the "${activeHabits[habitIndex].name}" habit?`)) {
+                            const deletedHabit = activeHabits.splice(habitIndex, 1)[0];
+                            document.getElementById('habits-tracked').textContent = activeHabits.length;
+                            renderHabits();
+                            showNotification(`Habit "${deletedHabit.name}" deleted.`, 'success');
+                        }
+                    }
+                });
+            }
+            
+            // ===== Render Functions =====
+            function renderHabits() {
+                habitsList.innerHTML = '';
+                
+                if (activeHabits.length === 0) {
+                    habitsList.innerHTML = '<p style="text-align: center; color: var(--text-light);">No habits added yet. Create your first habit to get started!</p>';
+                    return;
+                }
+                
+                activeHabits.forEach(habit => {
+                    const habitItem = document.createElement('div');
+                    habitItem.className = 'habit-item';
+                    habitItem.dataset.id = habit.id;
+                    
+                    const streakText = habit.frequency === 'daily' ? `${habit.streak}-day streak` : 
+                                      habit.frequency === 'weekly' ? `${habit.streak}-week streak` : 
+                                      `${habit.streak}-month streak`;
+                    
+                    habitItem.innerHTML = `
+                        <div class="habit-info">
+                            <h4>${habit.name}</h4>
+                            <p>${habit.frequency.charAt(0).toUpperCase() + habit.frequency.slice(1)} • ${habit.goal}</p>
+                            <div class="streak">
+                                <i class="fas fa-fire"></i> ${streakText}
+                                ${habit.completedToday ? '<span class="badge badge-success" style="margin-left: 8px;">Completed today</span>' : ''}
+                            </div>
+                        </div>
+                        <div class="habit-actions">
+                            <button class="habit-btn complete-btn" ${habit.completedToday ? 'disabled style="opacity: 0.5;"' : ''}>
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="habit-btn edit-btn">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="habit-btn delete-btn">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    
+                    habitsList.appendChild(habitItem);
+                });
+            }
+            
+            function renderHabit(habit) {
+                const habitItem = document.createElement('div');
+                habitItem.className = 'habit-item';
+                habitItem.dataset.id = habit.id;
+                
+                const streakText = habit.frequency === 'daily' ? `${habit.streak}-day streak` : 
+                                  habit.frequency === 'weekly' ? `${habit.streak}-week streak` : 
+                                  `${habit.streak}-month streak`;
+                
+                habitItem.innerHTML = `
+                    <div class="habit-info">
+                        <h4>${habit.name}</h4>
+                        <p>${habit.frequency.charAt(0).toUpperCase() + habit.frequency.slice(1)} • ${habit.goal}</p>
+                        <div class="streak">
+                            <i class="fas fa-fire"></i> ${streakText}
+                        </div>
+                    </div>
+                    <div class="habit-actions">
+                        <button class="habit-btn complete-btn">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button class="habit-btn edit-btn">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="habit-btn delete-btn">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                
+                habitsList.appendChild(habitItem);
+            }
+            
+            function renderChallenges() {
+                activeChallengesList.innerHTML = '';
+                availableChallengesList.innerHTML = '';
+                
+                if (activeChallenges.length === 0) {
+                    activeChallengesList.innerHTML = '<p style="text-align: center; color: var(--text-light);">No active challenges. Join a challenge to get started!</p>';
+                } else {
+                    activeChallenges.forEach(challenge => {
+                        const challengeCard = document.createElement('div');
+                        challengeCard.className = 'challenge-card';
+                        challengeCard.dataset.id = challenge.id;
+                        
+                        const categoryIcon = getChallengeIcon(challenge.category);
+                        const categoryColor = getChallengeColor(challenge.category);
+                        const progressPercent = Math.round((challenge.progress / challenge.total) * 100);
+                        
+                        challengeCard.innerHTML = `
+                            <div class="challenge-header">
+                                <div class="challenge-badge" style="background-color: ${categoryColor}">
+                                    <i class="fas ${categoryIcon}"></i>
+                                </div>
+                                <h4>${challenge.title}</h4>
+                            </div>
+                            <p>${challenge.description || getChallengeDescription(challenge.category)}</p>
+                            <div class="progress-container">
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: ${progressPercent}%;"></div>
+                                </div>
+                                <span>${challenge.progress}/${challenge.total} days</span>
+                            </div>
+                            <div class="challenge-reward">
+                                <i class="fas fa-medal"></i> ${challenge.reward} points
+                            </div>
+                            <button class="join-btn complete-challenge" ${challenge.progress === challenge.total ? 'disabled style="background-color: var(--success-color);"' : ''}>
+                                ${challenge.progress === challenge.total ? 'Completed!' : 'Complete Today'}
+                            </button>
+                        `;
+                        
+                        activeChallengesList.appendChild(challengeCard);
+                    });
+                }
+                
+                if (availableChallenges.length === 0) {
+                    availableChallengesList.innerHTML = '<p style="text-align: center; color: var(--text-light);">No available challenges at the moment. Check back later!</p>';
+                } else {
+                    availableChallenges.forEach(challenge => {
+                        const challengeCard = document.createElement('div');
+                        challengeCard.className = 'challenge-card';
+                        challengeCard.dataset.id = challenge.id;
+                        
+                        const categoryIcon = getChallengeIcon(challenge.category);
+                        const categoryColor = getChallengeColor(challenge.category);
+                        
+                        challengeCard.innerHTML = `
+                            <div class="challenge-header">
+                                <div class="challenge-badge" style="background-color: ${categoryColor}">
+                                    <i class="fas ${categoryIcon}"></i>
+                                </div>
+                                <h4>${challenge.title}</h4>
+                            </div>
+                            <p>${challenge.description || getChallengeDescription(challenge.category)}</p>
+                            <div class="challenge-reward">
+                                <i class="fas fa-medal"></i> ${challenge.reward} points
+                            </div>
+                            <button class="join-btn">Join Challenge</button>
+                        `;
+                        
+                        availableChallengesList.appendChild(challengeCard);
+                    });
+                }
+            }
+            
+            function renderResources() {
+                resourcesList.innerHTML = '';
+                
+                resources.forEach(resource => {
+                    const resourceCard = document.createElement('div');
+                    resourceCard.className = 'resource-card';
+                    resourceCard.dataset.id = resource.id;
+                    resourceCard.dataset.categories = `${resource.category} ${resource.type === 'article' ? 'articles' : 'videos'}`;
+                    
+                    const categoryIcon = getResourceIcon(resource.category);
+                    const categoryColor = getResourceColor(resource.category);
+                    
+                    resourceCard.innerHTML = `
+                        <div class="resource-image" style="background-color: ${categoryColor}">
+                            <i class="fas ${categoryIcon}"></i>
+                        </div>
+                        <div class="resource-content">
+                            <h4>${resource.title}</h4>
+                            <p>${resource.description}</p>
+                            <div class="resource-meta">
+                                <span class="resource-type">${resource.type === 'article' ? 'Article' : 'Video'}</span>
+                                <span class="resource-length">${resource.length}</span>
+                            </div>
+                            <button class="resource-btn">${resource.type === 'article' ? 'Read Now' : 'Watch Now'}</button>
+                        </div>
+                    `;
+                    
+                    resourcesList.appendChild(resourceCard);
+                });
+            }
+            
+            function renderGoals() {
+                goalsList.innerHTML = '';
+                
+                if (goals.length === 0) {
+                    goalsList.innerHTML = '<p style="text-align: center; color: var(--text-light);">No goals set yet. Add your first goal to get started!</p>';
+                    return;
+                }
+                
+                goals.forEach(goal => {
+                    const goalItem = document.createElement('div');
+                    goalItem.className = 'goal-item';
+                    goalItem.dataset.id = goal.id;
+                    
+                    const categoryIcon = getGoalIcon(goal.category);
+                    const categoryColor = getGoalColor(goal.category);
+                    
+                    goalItem.innerHTML = `
+                        <div class="goal-info">
+                            <h4>${goal.title}</h4>
+                            <p>${goal.description}</p>
+                            <div class="goal-progress">
+                                <i class="fas ${categoryIcon}" style="color: ${categoryColor}"></i> ${goal.category.charAt(0).toUpperCase() + goal.category.slice(1)}
+                                ${goal.dueDate ? ` • Due: ${new Date(goal.dueDate).toLocaleDateString()}` : ''}
+                                ${goal.completed ? '<span class="badge badge-success" style="margin-left: 8px;">Completed</span>' : ''}
+                            </div>
+                        </div>
+                        <div class="goal-actions">
+                            <button class="goal-btn complete-goal-btn">
+                                <i class="fas ${goal.completed ? 'fa-undo' : 'fa-check'}"></i>
+                            </button>
+                            <button class="goal-btn delete-goal-btn">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    
+                    goalsList.appendChild(goalItem);
+                });
+            }
+            
+            function renderGoal(goal) {
+                const goalItem = document.createElement('div');
+                goalItem.className = 'goal-item';
+                goalItem.dataset.id = goal.id;
+                
+                const categoryIcon = getGoalIcon(goal.category);
+                const categoryColor = getGoalColor(goal.category);
+                
+                goalItem.innerHTML = `
+                    <div class="goal-info">
+                        <h4>${goal.title}</h4>
+                        <p>${goal.description}</p>
+                        <div class="goal-progress">
+                            <i class="fas ${categoryIcon}" style="color: ${categoryColor}"></i> ${goal.category.charAt(0).toUpperCase() + goal.category.slice(1)}
+                            ${goal.dueDate ? ` • Due: ${new Date(goal.dueDate).toLocaleDateString()}` : ''}
+                        </div>
+                    </div>
+                    <div class="goal-actions">
+                        <button class="goal-btn complete-goal-btn">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button class="goal-btn delete-goal-btn">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                
+                goalsList.appendChild(goalItem);
+            }
+            
+            function filterResources(category, searchTerm = '') {
+                const resourceCards = document.querySelectorAll('.resource-card');
+                
+                resourceCards.forEach(card => {
+                    const matchesCategory = category === 'all' || 
+                                          card.dataset.categories.includes(category);
+                    
+                    const title = card.querySelector('h4').textContent.toLowerCase();
+                    const matchesSearch = searchTerm === '' || 
+                                         title.includes(searchTerm.toLowerCase());
+                    
+                    if (matchesCategory && matchesSearch) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+            
+            function updatePoints() {
+                userPointsElement.innerHTML = `<i class="fas fa-coins"></i> ${userPoints} points`;
+                document.getElementById('points-earned').textContent = userPoints;
+            }
+            
+            // ===== Helper Functions =====
+            function getChallengeIcon(category) {
+                switch(category) {
+                    case 'activity': return 'fa-walking';
+                    case 'hydration': return 'fa-glass-whiskey';
+                    case 'nutrition': return 'fa-apple-alt';
+                    case 'sleep': return 'fa-moon';
+                    case 'mental': return 'fa-brain';
+                    default: return 'fa-trophy';
+                }
+            }
+            
+            function getChallengeColor(category) {
+                switch(category) {
+                    case 'activity': return '#4CAF50';
+                    case 'hydration': return '#2196F3';
+                    case 'nutrition': return '#FF9800';
+                    case 'sleep': return '#3F51B5';
+                    case 'mental': return '#9C27B0';
+                    default: return '#607D8B';
+                }
+            }
+            
+            function getChallengeDescription(category) {
+                switch(category) {
+                    case 'activity': return 'Complete daily activity goals to build consistency.';
+                    case 'hydration': return 'Stay hydrated by meeting daily water intake goals.';
+                    case 'nutrition': return 'Improve your eating habits with this nutrition challenge.';
+                    case 'sleep': return 'Develop better sleep habits for improved rest and recovery.';
+                    case 'mental': return 'Practice mindfulness and reduce stress with this challenge.';
+                    default: return 'Complete this challenge to earn points and build healthy habits.';
+                }
+            }
+            
+            function getResourceIcon(category) {
+                switch(category) {
+                    case 'nutrition': return 'fa-apple-alt';
+                    case 'fitness': return 'fa-dumbbell';
+                    case 'sleep': return 'fa-bed';
+                    case 'mental': return 'fa-brain';
+                    default: return 'fa-book';
+                }
+            }
+            
+            function getResourceColor(category) {
+                switch(category) {
+                    case 'nutrition': return '#4CAF50';
+                    case 'fitness': return '#2196F3';
+                    case 'sleep': return '#3F51B5';
+                    case 'mental': return '#9C27B0';
+                    default: return '#607D8B';
+                }
+            }
+            
+            function getGoalIcon(category) {
+                switch(category) {
+                    case 'nutrition': return 'fa-apple-alt';
+                    case 'fitness': return 'fa-running';
+                    case 'sleep': return 'fa-moon';
+                    case 'mental': return 'fa-brain';
+                    default: return 'fa-bullseye';
+                }
+            }
+            
+            function getGoalColor(category) {
+                switch(category) {
+                    case 'nutrition': return '#4CAF50';
+                    case 'fitness': return '#2196F3';
+                    case 'sleep': return '#3F51B5';
+                    case 'mental': return '#9C27B0';
+                    default: return '#607D8B';
+                }
+            }
+            
+            function showNotification(message, type = 'success') {
+                notification.className = 'notification';
+                notification.classList.add(`notification-${type}`);
+                notification.classList.add('show');
+                
+                // Set icon based on type
+                const icon = notification.querySelector('i');
+                if (type === 'success') {
+                    icon.className = 'fas fa-check-circle';
+                } else if (type === 'error') {
+                    icon.className = 'fas fa-exclamation-circle';
+                } else if (type === 'warning') {
+                    icon.className = 'fas fa-exclamation-triangle';
+                }
+                
+                notificationMessage.textContent = message;
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+            
+            function initializeCharts() {
+                // Activity Chart
+                const activityCtx = document.getElementById('activityChart').getContext('2d');
+                const activityChart = new Chart(activityCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        datasets: [{
+                            label: 'Minutes of Activity',
+                            data: [20, 35, 15, 45, 30, 10, 25],
+                            backgroundColor: '#4CAF50',
+                            borderColor: '#388E3C',
+                            borderWidth: 1,
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                backgroundColor: '#333',
+                                titleFont: {
+                                    family: 'Poppins',
+                                    size: 14
+                                },
+                                bodyFont: {
+                                    family: 'Poppins',
+                                    size: 12
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Minutes',
+                                    font: {
+                                        family: 'Poppins',
+                                        size: 12
+                                    }
+                                },
+                                grid: {
+                                    color: '#eee'
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                });
+                
+                // Sleep Chart
+                const sleepCtx = document.getElementById('sleepChart').getContext('2d');
+                const sleepChart = new Chart(sleepCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        datasets: [{
+                            label: 'Hours of Sleep',
+                            data: [5, 6, 4.5, 5.5, 6, 7, 8],
+                            backgroundColor: 'rgba(33, 150, 243, 0.2)',
+                            borderColor: '#2196F3',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            fill: true,
+                            pointBackgroundColor: '#fff',
+                            pointBorderColor: '#2196F3',
+                            pointBorderWidth: 2,
+                            pointRadius: 4,
+                            pointHoverRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                backgroundColor: '#333',
+                                titleFont: {
+                                    family: 'Poppins',
+                                    size: 14
+                                },
+                                bodyFont: {
+                                    family: 'Poppins',
+                                    size: 12
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Hours',
+                                    font: {
+                                        family: 'Poppins',
+                                        size: 12
+                                    }
+                                },
+                                grid: {
+                                    color: '#eee'
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // ===== Initialize =====
+            setupAuthEventListeners();
+            initializeApp();
+        });
+    </script>
+</body>
+</html>
