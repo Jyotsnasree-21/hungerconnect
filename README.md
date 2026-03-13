@@ -1,11 +1,6 @@
 # 🍽️ HungerConnect
 
-[![React](https://img.shields.io/badge/React-18-blue)]()
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)]()
-[![Vite](https://img.shields.io/badge/Vite-Build%20Tool-purple)]()
-[![Supabase](https://img.shields.io/badge/Supabase-Backend-green)]()
-
-HungerConnect is a web platform designed to **reduce food waste and help people in need** by connecting **food donors, volunteers, and organizations**. The platform allows donors to register food donations and enables volunteers to collect and distribute them efficiently.
+HungerConnect is a web platform designed to **reduce food waste and help people in need** by connecting **food donors, volunteers, and organizations**. The platform allows donors to submit food donations while volunteers coordinate pickups and distribution efficiently.
 
 ---
 
@@ -13,22 +8,22 @@ HungerConnect is a web platform designed to **reduce food waste and help people 
 
 * 🍛 **Food Donation System** – Donors can register and submit food donations.
 * 📍 **Location Picker** – Helps volunteers identify donation locations.
-* 👥 **Volunteer Dashboard** – Manage and track food pickup requests.
-* 📊 **Donation History** – View past donations and activity.
-* 🎁 **Rewards System** – Encourage users to donate by rewarding contributions.
-* 🔐 **Authentication** – Secure user login and registration.
+* 👥 **Volunteer Dashboard** – Volunteers can manage and track food pickups.
+* 📊 **Donation History** – View records of past donations.
+* 🎁 **Rewards System** – Encourage donors with reward points.
+* 🔐 **Authentication System** – Secure login and registration for users.
 
 ---
 
 # 🛠️ Tech Stack
 
-| Technology         | Purpose                  |
-| ------------------ | ------------------------ |
-| React + TypeScript | Frontend framework       |
-| Vite               | Development & build tool |
-| Tailwind CSS       | Styling                  |
-| Supabase           | Backend & database       |
-| Vitest             | Testing framework        |
+| Technology         | Purpose              |
+| ------------------ | -------------------- |
+| React + TypeScript | Frontend Development |
+| Vite               | Build Tool           |
+| Tailwind CSS       | Styling              |
+| Supabase           | Backend & Database   |
+| Vitest             | Testing Framework    |
 
 ---
 
@@ -41,19 +36,84 @@ hungerconnect
 │   └── robots.txt
 │
 ├── src/
-│   ├── components/        # Reusable UI components
-│   ├── hooks/             # Custom React hooks
-│   ├── integrations/      # Supabase integration
-│   ├── lib/               # Utility functions
-│   ├── pages/             # Application pages
-│   ├── test/              # Test files
-│   ├── App.tsx            # Root component
-│   └── main.tsx           # Application entry point
+│   │
+│   ├── components/
+│   │   ├── DonationForm.tsx
+│   │   ├── DonationHistory.tsx
+│   │   ├── Footer.tsx
+│   │   ├── HeroCarousel.tsx
+│   │   ├── LocationPicker.tsx
+│   │   ├── NavLink.tsx
+│   │   ├── Navbar.tsx
+│   │   ├── RewardsModal.tsx
+│   │   ├── VolunteerDonations.tsx
+│   │   │
+│   │   └── ui/
+│   │       ├── accordion.tsx
+│   │       ├── alert-dialog.tsx
+│   │       ├── alert.tsx
+│   │       ├── avatar.tsx
+│   │       ├── badge.tsx
+│   │       ├── button.tsx
+│   │       ├── card.tsx
+│   │       ├── checkbox.tsx
+│   │       ├── dialog.tsx
+│   │       ├── dropdown-menu.tsx
+│   │       ├── input.tsx
+│   │       ├── label.tsx
+│   │       ├── select.tsx
+│   │       ├── table.tsx
+│   │       ├── tabs.tsx
+│   │       ├── textarea.tsx
+│   │       └── ...
+│   │
+│   ├── hooks/
+│   │   ├── use-mobile.tsx
+│   │   └── use-toast.ts
+│   │
+│   ├── integrations/
+│   │   └── supabase/
+│   │       ├── client.ts
+│   │       └── types.ts
+│   │
+│   ├── lib/
+│   │   └── utils.ts
+│   │
+│   ├── pages/
+│   │   ├── Dashboard.tsx
+│   │   ├── Index.tsx
+│   │   ├── Login.tsx
+│   │   ├── Register.tsx
+│   │   └── NotFound.tsx
+│   │
+│   ├── test/
+│   │   ├── example.test.ts
+│   │   └── setup.ts
+│   │
+│   ├── App.tsx
+│   ├── App.css
+│   ├── index.css
+│   └── main.tsx
 │
-├── supabase/              # Database migrations
+├── supabase/
+│   └── migrations/
+│       ├── migration1.sql
+│       ├── migration2.sql
+│       └── migration3.sql
+│
+├── index.html
 ├── package.json
+├── bun.lock
 ├── vite.config.ts
-└── README.md
+├── vitest.config.ts
+├── tailwind.config.ts
+├── tsconfig.json
+├── tsconfig.app.json
+├── tsconfig.node.json
+├── postcss.config.js
+├── eslint.config.js
+├── components.json
+└── env.txt
 ```
 
 ---
@@ -62,29 +122,29 @@ hungerconnect
 
 Clone the repository
 
-```
+```bash
 git clone https://github.com/Jyotsnasree-21/hungerconnect.git
 ```
 
 Navigate to the project folder
 
-```
+```bash
 cd hungerconnect
 ```
 
 Install dependencies
 
-```
+```bash
 npm install
 ```
 
 Run the development server
 
-```
+```bash
 npm run dev
 ```
 
-The application will run at
+The application will run at:
 
 ```
 http://localhost:5173
@@ -104,17 +164,17 @@ http://localhost:5173
 * NGO integration
 * Mobile application
 * AI-based food demand prediction
-* Notification system for volunteers
+* Volunteer notification system
 
 ---
 
 # 🤝 Contributing
 
-Contributions are welcome!
+Contributions are welcome.
 
 1. Fork the repository
-2. Create a new branch
-3. Make your changes
+2. Create a feature branch
+3. Commit your changes
 4. Submit a Pull Request
 
 ---
