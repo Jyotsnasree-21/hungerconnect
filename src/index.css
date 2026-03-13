@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 30 33% 97%;
+    --foreground: 20 10% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 20 10% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 10% 12%;
+
+    --primary: 27 96% 54%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 30 50% 95%;
+    --secondary-foreground: 27 96% 40%;
+
+    --muted: 30 20% 94%;
+    --muted-foreground: 20 10% 45%;
+
+    --accent: 38 92% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 30 20% 88%;
+    --input: 30 20% 88%;
+    --ring: 27 96% 54%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 27 96% 54%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 30 50% 95%;
+    --sidebar-accent-foreground: 27 96% 40%;
+    --sidebar-border: 30 20% 88%;
+    --sidebar-ring: 27 96% 54%;
+
+    --primary-dark: 27 96% 42%;
+    --primary-light: 27 96% 70%;
+    --amber: 38 92% 50%;
+    --amber-foreground: 0 0% 100%;
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+
+    --font-heading: 'Poppins', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+
+    --gradient-primary: linear-gradient(135deg, hsl(27, 96%, 54%), hsl(38, 92%, 50%));
+    --gradient-hero: linear-gradient(135deg, hsl(27, 96%, 54%), hsl(15, 90%, 55%));
+    --shadow-card: 0 4px 20px -4px hsl(27 96% 54% / 0.12);
+    --shadow-elevated: 0 12px 40px -8px hsl(27 96% 54% / 0.2);
+  }
+
+  .dark {
+    --background: 20 14% 8%;
+    --foreground: 30 20% 94%;
+    --card: 20 14% 12%;
+    --card-foreground: 30 20% 94%;
+    --popover: 20 14% 12%;
+    --popover-foreground: 30 20% 94%;
+    --primary: 27 96% 54%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 20 14% 16%;
+    --secondary-foreground: 30 20% 90%;
+    --muted: 20 14% 16%;
+    --muted-foreground: 30 10% 55%;
+    --accent: 38 92% 50%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 20 14% 20%;
+    --input: 20 14% 20%;
+    --ring: 27 96% 54%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+}
+
+@layer components {
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-elevated {
+    box-shadow: var(--shadow-elevated);
+  }
+
+  .text-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
